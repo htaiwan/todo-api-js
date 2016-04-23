@@ -1,0 +1,19 @@
+{
+  "name": "todo-api-js",
+  "version": "1.0.0",
+  "description": "show how to use node.js in server side",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://htaiwan@github.com/htaiwan/todo-api-js.git"
+  },
+  "author": "Alex Cheng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/htaiwan/todo-api-js/issues"
+  },
+  "homepage": "https://github.com/htaiwan/todo-api-js#readme"
+}
