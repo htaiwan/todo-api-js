@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt');
 var _ = require('underscore');
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('user', {
+	var user = sequelize.define('user', {
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -42,6 +42,31 @@ module.exports = function(sequelize, DataTypes) {
 				}
 			}
 		},
+		classMethods: {
+			authenticate: function(body) {
+				return new Promise(function(resolve, reject) {
+					if (typeof body.email !== 'string' || typeof body.password !== 'string') {
+						return reject();
+					}
+
+					// check email是否存在db
+					user.findOne({
+						where: {
+							email: body.email
+						}
+					}).then(function(user) {
+						// check password是否正確
+						if (!user || !bcrypt.compareSync(body.password, user.get('password_hash'))) {
+							return reject();
+						}
+
+						resolve(user);
+					}, function(e) {
+						reject();
+					});
+				});
+			}
+		},
 		instanceMethods: {
 			// 將password的資訊隱藏
 			toPublicJSON: function() {
@@ -50,4 +75,6 @@ module.exports = function(sequelize, DataTypes) {
 			}
 		}
 	});
+
+	return user;
 };

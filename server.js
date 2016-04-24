@@ -138,24 +138,10 @@ app.post('/users', function(req, res) {
 app.post('/users/login', function (req, res) {
 	var body = _.pick(req.body, 'email', 'password');
 
-	if (typeof body.email !== 'string' || typeof body.password !== 'string') {
-		return res.status(400).send();
-	}
-
-	// check email是否存在db
-	db.user.findOne({
-		where: {
-			email: body.email
-		}
-	}).then(function (user) {
-		// check password是否正確
-		if (!user || bcrypt.compareSync(body.password, user.get('password_hash'))) {
-			return res.status(401).send();
-		}
-
+	db.user.authenticate(body).then(function (user) {
 		res.json(user.toPublicJSON());
-	}, function (e) {
-		res.status(500).send();
+	}, function () {
+		res.status(401).send();
 	});
 });
 
