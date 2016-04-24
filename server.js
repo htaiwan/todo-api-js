@@ -122,6 +122,17 @@ app.put('/todos/:id', function(req, res) {
 	});
 });
 
+app.post('/users', function(req, res) {
+	// pick 只從body中確認我們所需要的參數，其他都不需要
+	var body = _.pick(req.body, 'email', 'password');
+
+	db.user.create(body).then(function(user) {
+		res.json(user.toJSON());
+	}, function(e) {
+		res.status(400).json(e);
+	});
+});
+
 db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
