@@ -15,10 +15,11 @@
   "bugs": {
     "url": "https://github.com/htaiwan/todo-api-js/issues"
   },
-    "dependencies": {
+  "dependencies": {
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
-    "pg": "^4.4.1", 
+    "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.5.1",
     "sqlite3": "^3.0.10",
