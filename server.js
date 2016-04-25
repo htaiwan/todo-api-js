@@ -63,7 +63,12 @@ app.post('/todos', middleware.requireAuthentication, function(req, res) {
 	var body = _.pick(req.body, 'description', 'completed');
 
 	db.todo.create(body).then(function(todo) {
-		res.json(todo.toJSON());
+		// 將目前登入的user跟todo進行關聯
+		req.user.addTodo(todo).then(function () {
+			return todo.reload();
+		}).then(function (todo) {
+			res.json(todo.toJSON());
+		});
 	}, function(e) {
 		res.status(400).json(e);
 	});
